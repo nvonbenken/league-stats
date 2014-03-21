@@ -30,21 +30,9 @@ import java.util.HashMap;
 
 public class MainActivity extends Activity {
 
-    private ProgressDialog dialog;
     private Spinner spinner;
-    private String api_key="d96236d2-6ee3-4cfd-afa7-f41bdbc11128";
     public static String region;
-    private static String TAG_STATS;
-    private static String TAG_ID;
-    private static String TAG_NAME;
-    private static String TAG_PROFILEICONID;
-    private static String TAG_REVISIONDATE;
-    private static String TAG_SUMMONERLEVEL;
     public static String name;
-
-    JSONArray stats = null;
-
-    ArrayList<HashMap<String, String>> statList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

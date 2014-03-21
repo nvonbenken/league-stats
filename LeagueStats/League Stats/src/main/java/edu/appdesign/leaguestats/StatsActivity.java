@@ -1,12 +1,9 @@
 package edu.appdesign.leaguestats;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 
@@ -19,9 +16,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Nate on 3/19/14.
- */
 public class StatsActivity extends ListActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
