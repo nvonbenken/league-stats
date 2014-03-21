@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">League Stats</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hint">Summoner Name</string>
+    <string name="region">Region</string>
+    <string name="submit">Go!</string>
+
+    <string-array name="region_selector">
+        <item>NA</item>
+        <item>EUNE</item>
+        <item>EUW</item>
+        <item>BR</item>
+    </string-array>
+
+</resources>
