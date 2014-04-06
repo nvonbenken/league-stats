@@ -10,43 +10,43 @@
     <!-- Name Label -->
 
     <TextView
-        android:id="@+id/id"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textSize="16sp"/>
+android:id="@+id/id"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="2dip"
+android:paddingTop="6dip"
+android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textSize="16sp"/>
+<TextView
+android:id="@+id/name"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="2dip"
+android:paddingTop="6dip"
+android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/profileIconId"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textSize="16sp"/>
+<TextView
+android:id="@+id/profileIconId"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="2dip"
+android:paddingTop="6dip"
+android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/revisionDate"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textSize="16sp"/>
+<TextView
+android:id="@+id/revisionDate"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="2dip"
+android:paddingTop="6dip"
+android:textSize="16sp"/>
 
-    <TextView
-        android:id="@+id/summonerLevel"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:paddingTop="6dip"
-        android:textSize="16sp"/>
+<TextView
+android:id="@+id/summonerLevel"
+android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:paddingBottom="2dip"
+android:paddingTop="6dip"
+android:textSize="16sp"/>
 
-</LinearLayout>
+    </LinearLayout>
