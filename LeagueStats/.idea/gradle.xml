@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/League Stats" />
+            <option value="C:\Users\Nate\Dropbox\Android Apps\LeagueStats" />
+            <option value="C:\Users\Nate\Dropbox\Android Apps\LeagueStats\League Stats" />
           </set>
         </option>
       </GradleProjectSettings>

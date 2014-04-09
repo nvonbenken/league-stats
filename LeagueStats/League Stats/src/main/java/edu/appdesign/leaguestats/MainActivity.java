@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +18,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -46,7 +48,9 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
 
                 EditText enteredText = (EditText)findViewById(R.id.name);
-                name = enteredText.toString();
+                enteredText.setInputType(InputType.TYPE_CLASS_TEXT);
+
+                name = enteredText.getText().toString();
 
                 InputMethodManager inputManager = (InputMethodManager)
                         getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -55,7 +59,6 @@ public class MainActivity extends Activity {
                         InputMethodManager.HIDE_NOT_ALWAYS);
 
                 Intent intent = new Intent(MainActivity.this, StatsActivity.class);
-
                 startActivity(intent);
             }
         });

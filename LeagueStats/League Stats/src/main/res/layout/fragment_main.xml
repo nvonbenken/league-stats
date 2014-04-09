@@ -8,6 +8,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="#111111"
     tools:context="edu.appdesign.leaguestats.MainActivity$PlaceholderFragment"
     android:weightSum="1">
 
@@ -22,6 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:textColor="#C49246"
+            android:textColorHint="#C49246"
             android:hint="@string/hint"/>
 
         <Spinner
@@ -44,7 +47,6 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/submit"/>
-
 
      </LinearLayout>
 
