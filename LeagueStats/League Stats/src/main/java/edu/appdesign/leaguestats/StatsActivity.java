@@ -1,6 +1,8 @@
 package edu.appdesign.leaguestats;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -79,7 +81,7 @@ public class StatsActivity extends Activity {
 
         private String api_key="d96236d2-6ee3-4cfd-afa7-f41bdbc11128";
         String region = MainActivity.region.toLowerCase();
-        String name = MainActivity.name;
+        String name = MainActivity.name.toLowerCase();
         String url = null;
         String encodedName = null;
         String encodedKey = null;
@@ -126,6 +128,13 @@ public class StatsActivity extends Activity {
             try {
                 jb = json.getJSONObject(encodedName);
 
+                // Check JSON response
+                String test = json.getString(encodedName);
+
+                if(test.equals("status")) {
+                    cancel(true);
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -135,6 +144,9 @@ public class StatsActivity extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
+
+                isCancelled();
+
                 // Storing JSON item to String
                 String name = json.getString(TAG_NAME);
                 String icon = json.getString(TAG_PROFILEICONID);

@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:entries="@array/region_selector"
+            android:textColor="#C49246"
             android:prompt="@string/region"/>
 
     </LinearLayout>
@@ -46,6 +47,8 @@
             android:id="@+id/submit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:background="#282828"
+            android:textColor="#C49246"
             android:text="@string/submit"/>
 
      </LinearLayout>

@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -48,6 +49,7 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
 
                 EditText enteredText = (EditText)findViewById(R.id.name);
+                enteredText.setBackgroundColor(0);
                 enteredText.setInputType(InputType.TYPE_CLASS_TEXT);
 
                 name = enteredText.getText().toString();
