@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
 
     private Spinner spinner;
     public static String region;
@@ -71,6 +71,7 @@ public class MainActivity extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#C49246"));
                 Toast.makeText(adapterView.getContext(),
                         "Region Selected: " + adapterView.getItemAtPosition(i).toString(),
                         Toast.LENGTH_SHORT).show();

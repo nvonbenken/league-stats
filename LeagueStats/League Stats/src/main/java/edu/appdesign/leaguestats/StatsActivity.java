@@ -1,11 +1,9 @@
 package edu.appdesign.leaguestats;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,7 +20,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class StatsActivity extends Activity {
+public class StatsActivity extends BaseActivity {
 
     TextView textName;
     TextView textSummonerLevel;
@@ -122,21 +120,20 @@ public class StatsActivity extends Activity {
 
             // Get JSON from URL
             JSONObject json = jParser.getJSONFromUrl(url);
-            Log.i("............", "" + json);
+            Log.i("Summoner JSON", "" + json);
             JSONObject jb = null;
+
+            if(json == null)
+                cancel(true);
+
+            isCancelled();
 
             try {
                 jb = json.getJSONObject(encodedName);
 
-                // Check JSON response
-                String test = json.getString(encodedName);
-
-                if(test.equals("status")) {
-                    cancel(true);
-                }
-
             } catch (JSONException e) {
                 e.printStackTrace();
+
             }
             return jb;
         }
@@ -144,9 +141,6 @@ public class StatsActivity extends Activity {
         @Override
         protected void onPostExecute(JSONObject json) {
             try {
-
-                isCancelled();
-
                 // Storing JSON item to String
                 String name = json.getString(TAG_NAME);
                 String icon = json.getString(TAG_PROFILEICONID);
@@ -169,6 +163,24 @@ public class StatsActivity extends Activity {
                 e.printStackTrace();
             }
         }
+
+        @Override
+        protected void onCancelled () {
+            AlertDialog.Builder builder = new AlertDialog.Builder(StatsActivity.this);
+            builder.setPositiveButton("Go Back", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    final Intent intent = new Intent(StatsActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+
+            builder.setMessage("No summoner by that name found!");
+            builder.setTitle("Error");
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+
     }
 }
 

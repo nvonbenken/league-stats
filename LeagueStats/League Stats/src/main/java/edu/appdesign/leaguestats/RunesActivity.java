@@ -1,11 +1,12 @@
 package edu.appdesign.leaguestats;
 
-import android.app.Activity;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,34 +17,37 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * Created by Nate on 4/7/14.
  */
-public class RunesActivity extends Activity {
+public class RunesActivity extends BaseActivity {
 
     public static String page;
-    TextView textName;
     Spinner spinner;
+    ArrayAdapter<String> adapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rune_activity);
-        spinner = (Spinner) findViewById(R.id.rune_selector);
-        addListenerOnSpinnerSelection();
+        getActionBar().setTitle("Runes");
         GetRunes getRunes = new GetRunes();
         getRunes.execute();
-
+        spinner = (Spinner) findViewById(R.id.rune_selector);
     }
 
     public void addListenerOnSpinnerSelection() {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.parseColor("#C49246"));
                 Toast.makeText(adapterView.getContext(),
                         "Page Selected: " + adapterView.getItemAtPosition(i).toString(),
                         Toast.LENGTH_SHORT).show();
+
                 page = adapterView.getItemAtPosition(i).toString();
+
             }
 
             @Override
@@ -74,10 +78,6 @@ public class RunesActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
             try {
-
-                // Assign views
-                textName = (TextView) findViewById(R.id.name);
-
                 // Encode URL variables
                 encodedId = URLEncoder.encode(id, "UTF-8");
                 encodedKey = URLEncoder.encode(api_key, "UTF-8");
@@ -106,13 +106,19 @@ public class RunesActivity extends Activity {
             try {
                 // Get JSON Object
                 JSONObject runes = json.getJSONObject(encodedId);
+                Log.i("runes", "" + runes);
+
 
                 // Get JSON Array node
                 JSONArray rune = runes.getJSONArray("pages");
+                Log.i("rune", "" + rune);
+
 
                 // Loop through pages, page names stored in string array
                 String[] name = new String[rune.length()];
                 String curr;
+                ArrayList<String> runePageNames = new ArrayList<String>();
+
                 for(int i = 0; i < rune.length(); i++) {
                     JSONObject c = rune.getJSONObject(i);
                     name[i] = c.getString(TAG_NAME);
@@ -120,16 +126,17 @@ public class RunesActivity extends Activity {
 
                     if(curr.equals("true"))
                        name[i] = name[i] + " [Active]";
+                    runePageNames.add(name[i]);
 
                     Log.i(".........", name[i]);
                 }
 
-                // Set TextView
-                textName.setText(name[0]);
+                adapter = new ArrayAdapter(RunesActivity.this,
+                        android.R.layout.simple_spinner_dropdown_item,
+                        runePageNames);
 
-                // Show page names on Spinner
-
-
+                spinner.setAdapter(adapter);
+                addListenerOnSpinnerSelection();
 
             } catch (JSONException e) {
                 e.printStackTrace();
