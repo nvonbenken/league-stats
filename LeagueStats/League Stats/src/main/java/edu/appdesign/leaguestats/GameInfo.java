@@ -5,5 +5,5 @@ package edu.appdesign.leaguestats;
  */
 public class GameInfo extends BaseActivity {
 
-
+Fucked up your code
 }
