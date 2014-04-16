@@ -107,13 +107,17 @@ public class MatchHistoryActivity extends BaseActivity {
                 History[] historyData = new History[games.length()];
 
                 for(int i = 0; i < games.length(); i++) {
+                    Log.d("Loop", "Loop run counter " + i);
                     JSONObject c = games.getJSONObject(i);
                     JSONObject gameStats = games.getJSONObject(i).getJSONObject(TAG_STATS);
                     type[i] = c.getString(TAG_TYPE);
                     champId[i] = c.getString("championId");
                     cs[i] = gameStats.getString("minionsKilled");
                     kills[i] = gameStats.getString("championsKilled");
-                    deaths[i] = gameStats.getString("numDeaths");
+                    if(gameStats.getString("numDeaths") == null)
+                        deaths[i] = "0";
+                    else
+                        deaths[i] = gameStats.getString("numDeaths");
                     assists[i] = gameStats.getString("assists");
                     win[i] = gameStats.getString("win");
 
@@ -135,6 +139,15 @@ public class MatchHistoryActivity extends BaseActivity {
 
                     historyData[i] = new History(score[i], champId[i], R.drawable.ic_launcher); // Placeholder image
 
+
+
+                }
+
+                if(historyData == null)
+                {
+
+                    historyData[0] = new History("No game found!", "N/A", R.drawable.ic_launcher);
+                    Log.i("Data", "" + historyData);
                 }
 
                 adapter = new HistoryAdapter(MatchHistoryActivity.this,
