@@ -111,8 +111,6 @@ public class BaseActivity extends Activity
         // Esports
         navDrawerItems.add(new String(layers[3]));
 
-        // drawerList.setOnItemClickListener(new SlideMenuClickListener());
-
         // setting the nav drawer list adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.drawer_list_item, android.R.id.text1,
                 layers);
@@ -153,10 +151,5 @@ public class BaseActivity extends Activity
             }
         });
 
-
-
-        //super.setContentView(mDrawerLayout);
-        /*getLayoutInflater().inflate(layoutResID, actContent, true);
-        super.setContentView(mDrawerLayout);*/
     }
 }

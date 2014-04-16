@@ -1,9 +1,15 @@
 package edu.appdesign.leaguestats;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,17 +25,18 @@ import java.util.ArrayList;
 /**
  * Created by Nate on 4/7/2014.
  */
-public class MatchHistoryActivity extends Activity {
+public class MatchHistoryActivity extends BaseActivity {
 
     TextView textType;
     ListView list;
-    ArrayAdapter<String> adapter;
+    HistoryAdapter adapter;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_activity);
         list = (ListView) findViewById(R.id.list);
+        getActionBar().setTitle("Recent Games");
 
         GetMatchHistory getMatchHistory = new GetMatchHistory();
         getMatchHistory.execute();
@@ -47,8 +54,7 @@ public class MatchHistoryActivity extends Activity {
 
 
         // JSON Node Names
-        String TAG_MODE = "gameMode";
-        String TAG_TYPE = "gameType";
+        String TAG_TYPE = "subType";
         String TAG_STATS = "stats";
 
 
@@ -89,25 +95,78 @@ public class MatchHistoryActivity extends Activity {
             try {
                 // Get JSON Object
                 JSONArray games = json.getJSONArray("games");
-                Log.i("test", "" + games);
-                String[] type = new String[games.length()];
-                ArrayList<String> recentGameTypes = new ArrayList<String>();
+
+                final String[] type = new String[games.length()];
+                final String[] champId = new String[games.length()];
+                String[] kills = new String[games.length()];
+                String[] deaths = new String[games.length()];
+                String[] assists = new String[games.length()];
+                final String[] score = new String[games.length()];
+                final String[] win = new String[games.length()];
+                String[] cs = new String[games.length()];
+                History[] historyData = new History[games.length()];
+
                 for(int i = 0; i < games.length(); i++) {
                     JSONObject c = games.getJSONObject(i);
-                    type[i] = c.getString("subType");
-                    Log.i("test", type[i]);
+                    JSONObject gameStats = games.getJSONObject(i).getJSONObject(TAG_STATS);
+                    type[i] = c.getString(TAG_TYPE);
+                    champId[i] = c.getString("championId");
+                    cs[i] = gameStats.getString("minionsKilled");
+                    kills[i] = gameStats.getString("championsKilled");
+                    deaths[i] = gameStats.getString("numDeaths");
+                    assists[i] = gameStats.getString("assists");
+                    win[i] = gameStats.getString("win");
+
+                    if(win[i].equals("true"))
+                        win[i] = "Victory";
+                    else
+                        win[i] = "Defeat";
 
                     if(type[i].equals("RANKED_SOLO_5x5"))
                         type[i] = "Ranked (Solo)";
 
-                    recentGameTypes.add(type[i]);
+                    if(type[i].equals("CAP_5x5"))
+                        type[i] = "TeamBuilder";
+
+                    if(type[i].equals("NORMAL"))
+                        type[i] = "Unranked";
+
+                    score[i] = kills[i] +"/" + deaths[i] + "/" + assists[i];
+
+                    historyData[i] = new History(score[i], champId[i], R.drawable.ic_launcher); // Placeholder image
+
                 }
 
-                adapter = new ArrayAdapter(MatchHistoryActivity.this,
-                        android.R.layout.simple_expandable_list_item_1,
-                        recentGameTypes);
+                adapter = new HistoryAdapter(MatchHistoryActivity.this,
+                        R.layout.list_adapter,
+                        historyData);
 
                 list.setAdapter(adapter);
+
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, final int position,
+                                            long id) {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MatchHistoryActivity.this);
+                        builder.setPositiveButton("More Info", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                final Intent intent = new Intent(MatchHistoryActivity.this, GameInfo.class);
+                                startActivity(intent);
+                            }
+                        });
+                        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                            }
+                        });
+
+                        builder.setMessage(champId[position] + "\n" + score[position] + "\n" + win[position]);
+                        builder.setTitle(type[position]);
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
 
 
             } catch (JSONException e) {

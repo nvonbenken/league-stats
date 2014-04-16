@@ -3,7 +3,6 @@ package edu.appdesign.leaguestats;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,9 +38,6 @@ public class StatsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                // Lookup Runes for Summoner ID retrieved by JSON lookup
-                // Code here
-
                 Intent intent = new Intent(StatsActivity.this, RunesActivity.class);
                 startActivity(intent);
             }
@@ -51,9 +47,6 @@ public class StatsActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
 
-                // Lookup Masteries for Summoner ID retrieved by JSON lookup
-                // Code here
-
                 Intent intent = new Intent(StatsActivity.this, MasteriesActivity.class);
                 startActivity(intent);
             }
@@ -62,9 +55,6 @@ public class StatsActivity extends BaseActivity {
         viewMatchHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // Look up match history for Summoner ID retrieved by JSON lookup
-                // Code here
 
                 Intent intent = new Intent(StatsActivity.this, MatchHistoryActivity.class);
                 startActivity(intent);
@@ -129,7 +119,9 @@ public class StatsActivity extends BaseActivity {
             isCancelled();
 
             try {
-                jb = json.getJSONObject(encodedName);
+                if (json != null) {
+                    jb = json.getJSONObject(encodedName);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
