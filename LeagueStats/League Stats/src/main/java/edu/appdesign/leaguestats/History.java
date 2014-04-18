@@ -1,18 +1,20 @@
 package edu.appdesign.leaguestats;
 
+import com.squareup.picasso.Picasso;
+
 /**
  * Created by Nate on 4/15/2014.
  */
 public class History {
     public String score;
     public String gametype;
-    public int icon;
+    public String icon;
 
     public History() {
         super();
     }
 
-    public History(String score, String gametype, int icon) {
+    public History(String score, String gametype, String icon) {
         super();
         this.score = score;
         this.gametype = gametype;

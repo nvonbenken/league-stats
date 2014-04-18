@@ -7,8 +7,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,18 +19,18 @@ import java.io.UnsupportedEncodingException;
 /**
  * Created by Nate on 4/6/14.
  */
-public class JSONParser {
+public class JSONArrayParser {
 
     static InputStream is = null;
-    static JSONObject jObj = null;
+    static JSONArray jObj = null;
     static String json = "";
 
     // constructor
-    public JSONParser() {
+    public JSONArrayParser() {
 
     }
 
-    public JSONObject getJSONFromUrl(String url) {
+    public JSONArray getJSONFromUrl(String url) {
 
         // Making HTTP request
         try {
@@ -64,7 +64,7 @@ public class JSONParser {
 
         // try parse the string to a JSON object
         try {
-            jObj = new JSONObject(json);
+            jObj = new JSONArray(json);
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }

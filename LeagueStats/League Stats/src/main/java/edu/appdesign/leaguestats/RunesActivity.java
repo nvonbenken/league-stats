@@ -84,7 +84,7 @@ public class RunesActivity extends BaseActivity {
                 encodedRegion = URLEncoder.encode(region, "UTF-8");
 
                 url = "http://prod.api.pvp.net/api/lol/" + region + "/v1.4/summoner/" + id + "/runes?api_key=" + api_key;
-                Log.i("..........", url);
+                Log.i("Runes URL", url);
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -97,7 +97,7 @@ public class RunesActivity extends BaseActivity {
 
             // Get JSON from URL
             JSONObject json = jParser.getJSONFromUrl(url);
-            Log.i("............", "" + json);
+            Log.i("Main JSON", "" + json);
             return json;
         }
 
@@ -106,12 +106,12 @@ public class RunesActivity extends BaseActivity {
             try {
                 // Get JSON Object
                 JSONObject runes = json.getJSONObject(encodedId);
-                Log.i("runes", "" + runes);
+                Log.i("Runes JSON", "" + runes);
 
 
                 // Get JSON Array node
                 JSONArray rune = runes.getJSONArray("pages");
-                Log.i("rune", "" + rune);
+                Log.i("Rune JSON", "" + rune);
 
 
                 // Loop through pages, page names stored in string array
@@ -128,7 +128,7 @@ public class RunesActivity extends BaseActivity {
                        name[i] = name[i] + " [Active]";
                     runePageNames.add(name[i]);
 
-                    Log.i(".........", name[i]);
+                    Log.i("Page Names", name[i]);
                 }
 
                 adapter = new ArrayAdapter(RunesActivity.this,

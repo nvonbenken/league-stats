@@ -24,6 +24,9 @@ public class StatsActivity extends BaseActivity {
     TextView textName;
     TextView textSummonerLevel;
     ImageView imageView;
+    TextView textRWins;
+    TextView textRLoss;
+    TextView textRLeague;
     public static String sumID;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,9 @@ public class StatsActivity extends BaseActivity {
                 textName = (TextView) findViewById(R.id.name);
                 textSummonerLevel = (TextView) findViewById(R.id.summonerLevel);
                 imageView = (ImageView) findViewById(R.id.icon);
+                textRWins = (TextView) findViewById(R.id.rankedWins);
+                textRLoss = (TextView) findViewById(R.id.rankedLosses);
+                textRLeague = (TextView) findViewById(R.id.rankedLeague);
 
                 // Encode URL variables
                 encodedName = URLEncoder.encode(name, "UTF-8");
@@ -149,6 +155,14 @@ public class StatsActivity extends BaseActivity {
 
                 // Use Picasso library for easy image handling/caching
                 Picasso.with(imageView.getContext()).load(iconUrl).into(imageView);
+
+                GetStaticData.Summary summary = new GetStaticData.Summary();
+                summary = GetStaticData.getSummary(sumID);
+
+                textRLeague.setText(summary.rLeague + ": " + summary.rTier + " " + summary.rRank + " " + summary.rLeaguePoints + "LP" );
+
+                textRWins.setText("Wins: " + summary.rWins);
+                textRLoss.setText("Losses: " + summary.rLoss);
 
 
             } catch (JSONException e) {

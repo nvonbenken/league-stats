@@ -7,13 +7,14 @@
     <string name="hint">Summoner Name</string>
     <string name="region">Region</string>
     <string name="submit">Go!</string>
-    <string name="view_runes">View Runes</string>
-    <string name="view_masteries">View Masteries</string>
+    <string name="view_runes">Runes</string>
+    <string name="view_masteries">Masteries</string>
     <string name="match_history">Match History</string>
     <string name="select_runes">Select Rune Page</string>
     <string name="select_masteries">Select Mastery Page</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="ranked_stats">Ranked Stats</string>
 
     <string-array name="region_selector">
         <item>NA</item>

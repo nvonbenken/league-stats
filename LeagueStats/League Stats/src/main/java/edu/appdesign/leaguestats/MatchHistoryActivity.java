@@ -11,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -95,34 +98,51 @@ public class MatchHistoryActivity extends BaseActivity {
             try {
                 // Get JSON Object
                 JSONArray games = json.getJSONArray("games");
+                ImageView imageView = (ImageView) findViewById(R.id.icon);
 
                 final String[] type = new String[games.length()];
                 final String[] champId = new String[games.length()];
                 String[] kills = new String[games.length()];
                 String[] deaths = new String[games.length()];
                 String[] assists = new String[games.length()];
+                String[] iconUrl = new String[games.length()];
                 final String[] score = new String[games.length()];
                 final String[] win = new String[games.length()];
                 String[] cs = new String[games.length()];
                 History[] historyData = new History[games.length()];
 
                 for(int i = 0; i < games.length(); i++) {
-                    Log.d("Loop", "Loop run counter " + i);
                     JSONObject c = games.getJSONObject(i);
                     JSONObject gameStats = games.getJSONObject(i).getJSONObject(TAG_STATS);
                     type[i] = c.getString(TAG_TYPE);
                     champId[i] = c.getString("championId");
                     cs[i] = gameStats.getString("minionsKilled");
-                    kills[i] = gameStats.getString("championsKilled");
-                    if(gameStats.getString("numDeaths") == null)
-                        deaths[i] = "0";
-                    else
+
+                    try {
+                        kills[i] = gameStats.getString("championsKilled");
+                    }
+                    catch (JSONException e) {
+                        kills[i] = "0";
+                    }
+
+                    try {
                         deaths[i] = gameStats.getString("numDeaths");
-                    assists[i] = gameStats.getString("assists");
+                    }
+                    catch (JSONException e) {
+                          deaths[i] = "0";
+                    }
+                    try {
+                        assists[i] = gameStats.getString("assists");
+                    }
+                    catch (JSONException e) {
+                        assists[i] = "0";
+                    }
+
                     win[i] = gameStats.getString("win");
 
                     if(win[i].equals("true"))
                         win[i] = "Victory";
+
                     else
                         win[i] = "Defeat";
 
@@ -135,19 +155,14 @@ public class MatchHistoryActivity extends BaseActivity {
                     if(type[i].equals("NORMAL"))
                         type[i] = "Unranked";
 
+                    GetStaticData data = new GetStaticData();
+                    champId[i] = data.getChampionName(champId[i]);
+
                     score[i] = kills[i] +"/" + deaths[i] + "/" + assists[i];
 
-                    historyData[i] = new History(score[i], champId[i], R.drawable.ic_launcher); // Placeholder image
+                    iconUrl[i] = "http://ddragon.leagueoflegends.com/cdn/4.5.4/img/champion/" + champId[i] + ".png";
 
-
-
-                }
-
-                if(historyData == null)
-                {
-
-                    historyData[0] = new History("No game found!", "N/A", R.drawable.ic_launcher);
-                    Log.i("Data", "" + historyData);
+                    historyData[i] = new History(score[i], type[i] + ": " + win[i], iconUrl[i]);
                 }
 
                 adapter = new HistoryAdapter(MatchHistoryActivity.this,

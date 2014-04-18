@@ -8,4 +8,4 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:textColor="#C49246"
-    android:textSize="10pt"/>
+    android:textSize="8pt"/>

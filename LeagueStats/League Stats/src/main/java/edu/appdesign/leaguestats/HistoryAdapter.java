@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 /**
@@ -51,7 +53,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         History history = data[position];
         holder.textScore.setText(history.score);
         holder.textTitle.setText(history.gametype);
-        holder.imageIcon.setImageResource(history.icon);
+        Picasso.with(this.context).load(history.icon).into(holder.imageIcon);
 
 
         return convertView;
