@@ -7,16 +7,16 @@
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="wrap_content"
+        android:layout_width="100px"
         android:layout_height="fill_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/twitch_logo"
         android:contentDescription="TODO" />
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/description"
         android:textColor="#C49246"
         android:layout_width="fill_parent"
         android:layout_height="26dip"
@@ -25,15 +25,16 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/gameType"
+        android:id="@+id/streamer"
         android:textColor="#C49246"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/score"
+        android:layout_above="@id/description"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"

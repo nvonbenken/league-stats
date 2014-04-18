@@ -62,27 +62,21 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:id="@+id/rankedLeague"
-            android:textColor="#C49246"
-
-            />
+            android:textColor="#C49246"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:id="@+id/rankedWins"
-            android:textColor="#C49246"
-
-            />
+            android:textColor="#C49246"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="50dp"
             android:id="@+id/rankedLosses"
-            android:textColor="#C49246"
-
-            />
+            android:textColor="#C49246"/>
     </LinearLayout>
 
 
@@ -94,7 +88,7 @@
         android:layout_marginTop="50dp">
 
         <Button
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:id="@+id/runes"
             android:layout_marginTop="20dp"
@@ -104,7 +98,7 @@
             android:text = "@string/view_runes"/>
 
         <Button
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:id="@+id/masteries"
             android:background="#282828"
@@ -114,7 +108,7 @@
             android:text ="@string/view_masteries"/>
 
         <Button
-            android:layout_width="200dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:id="@+id/history"
             android:background="#282828"

@@ -5,5 +5,5 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/list"
-    android:background="#111111">
+    android:background="@android:color/transparent">
 </ListView>

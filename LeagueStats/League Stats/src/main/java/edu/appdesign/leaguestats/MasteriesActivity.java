@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class MasteriesActivity extends BaseActivity {
 
     private Spinner spinner;
-    public static String page;
     ArrayAdapter<String> adapter;
 
     protected void onCreate(Bundle savedInstanceState) {

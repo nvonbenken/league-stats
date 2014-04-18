@@ -1,7 +1,5 @@
 package edu.appdesign.leaguestats;
 
-import com.squareup.picasso.Picasso;
-
 /**
  * Created by Nate on 4/15/2014.
  */

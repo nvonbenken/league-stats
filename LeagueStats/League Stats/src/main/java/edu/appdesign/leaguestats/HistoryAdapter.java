@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by Nate on 4/15/2014.
  */
@@ -31,7 +29,7 @@ public class HistoryAdapter extends ArrayAdapter<History> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        HistoryHolder holder = null;
+        HistoryHolder holder;
 
         if(convertView == null)
         {
