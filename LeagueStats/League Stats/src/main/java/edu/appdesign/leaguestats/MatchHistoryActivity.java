@@ -141,13 +141,16 @@ public class MatchHistoryActivity extends BaseActivity {
                         win[i] = "Defeat";
 
                     if(type[i].equals("RANKED_SOLO_5x5"))
-                        type[i] = "Ranked (Solo)";
+                        type[i] = "Ranked";
 
                     if(type[i].equals("CAP_5x5"))
                         type[i] = "TeamBuilder";
 
                     if(type[i].equals("NORMAL"))
                         type[i] = "Unranked";
+
+                    if(type[i].equals("ARAM_UNRANKED_5x5"))
+                        type[i] = "ARAM";
 
                     GetStaticData data = new GetStaticData();
                     champId[i] = data.getChampionName(champId[i]);

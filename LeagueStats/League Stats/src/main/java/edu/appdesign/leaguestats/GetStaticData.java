@@ -18,9 +18,19 @@ public class GetStaticData {
     private static String api_key = "d96236d2-6ee3-4cfd-afa7-f41bdbc11128";
     public static String region = MainActivity.region.toLowerCase();
 
-    public void getRuneInfo(String pageName) {
+    public String getRuneInfo(String runeId) {
+        String name = null;
+        try {
+            name = new GetRunes()
+                    .execute(runeId)
+                    .get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
-
+        return name;
     }
 
     public String getChampionName(String champId) {
@@ -128,6 +138,43 @@ public class GetStaticData {
             this.rLeague = rLeague;
             this.rRank = rRank;
             this.rLeaguePoints = rLeaguePoints;
+        }
+    }
+
+    public static class GetRunes extends AsyncTask<String, String, String> {
+
+        protected String doInBackground(String[] runeId) {
+            String url = "https://prod.api.pvp.net/api/lol/static-data/" + region + "/v1.2/rune/" +  runeId[0] + "?api_key=" + api_key;
+            JSONParser jsonParser = new JSONParser();
+            JSONObject runeInfo = jsonParser.getJSONFromUrl(url);
+            String name = null;
+            try {
+                name = runeInfo.getString("name");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return name;
+        }
+    }
+
+
+    public static class Runes {
+        public String[] marks = new String[9];
+        public String[] glyphs = new String[9];
+        public String[] seals = new String[9];
+        public String[] quints = new String[3];
+
+
+        public Runes() {
+            super();
+        }
+
+        public Runes(String[] marks, String[] seals, String[] glyphs, String[] quints) {
+            super();
+            this.marks = marks;
+            this.seals = seals;
+            this.glyphs = glyphs;
+            this.quints = quints;
         }
     }
 }

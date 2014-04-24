@@ -27,6 +27,7 @@ public class StatsActivity extends BaseActivity {
     TextView textRWins;
     TextView textRLoss;
     TextView textRLeague;
+    TextView rankedStats;
     public static String sumID;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +97,7 @@ public class StatsActivity extends BaseActivity {
                 textRWins = (TextView) findViewById(R.id.rankedWins);
                 textRLoss = (TextView) findViewById(R.id.rankedLosses);
                 textRLeague = (TextView) findViewById(R.id.rankedLeague);
+                rankedStats = (TextView) findViewById(R.id.rankedStats);
 
                 // Encode URL variables
                 encodedName = URLEncoder.encode(name, "UTF-8");
@@ -155,15 +157,18 @@ public class StatsActivity extends BaseActivity {
 
                 // Use Picasso library for easy image handling/caching
                 Picasso.with(imageView.getContext()).load(iconUrl).into(imageView);
+                if(sumLevel.equals("30")) {
 
-                GetStaticData.Summary summary = new GetStaticData.Summary();
-                summary = GetStaticData.getSummary(sumID);
+                    GetStaticData.Summary summary = new GetStaticData.Summary();
+                    summary = GetStaticData.getSummary(sumID);
 
-                textRLeague.setText(summary.rLeague + ": " + summary.rTier + " " + summary.rRank + " " + summary.rLeaguePoints + "LP" );
+                    textRLeague.setText(summary.rLeague + ": " + summary.rTier + " " + summary.rRank + ", " + summary.rLeaguePoints + "LP");
 
-                textRWins.setText("Wins: " + summary.rWins);
-                textRLoss.setText("Losses: " + summary.rLoss);
-
+                    textRWins.setText("Wins: " + summary.rWins);
+                    textRLoss.setText("Losses: " + summary.rLoss);
+                }
+                else
+                    rankedStats.setText("No Ranked Games Played");
 
             } catch (JSONException e) {
                 e.printStackTrace();
