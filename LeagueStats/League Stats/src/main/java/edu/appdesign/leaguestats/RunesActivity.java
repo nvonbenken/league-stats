@@ -15,6 +15,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.StreamCorruptedException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -26,7 +35,6 @@ public class RunesActivity extends BaseActivity {
 
     Spinner spinner;
     ArrayAdapter<String> adapter;
-    String[] runeIdArray = new String[6000];
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +54,7 @@ public class RunesActivity extends BaseActivity {
         String encodedRegion = null;
         String encodedId = null;
         String url = null;
+        String url2 = null;
 
         // JSON Node Names
         String TAG_NAME = "name";
@@ -64,7 +73,8 @@ public class RunesActivity extends BaseActivity {
                 encodedRegion = URLEncoder.encode(region, "UTF-8");
 
                 url = "http://prod.api.pvp.net/api/lol/" + region + "/v1.4/summoner/" + id + "/runes?api_key=" + api_key;
-                Log.i("Runes URL", url);
+                url2 = "https://prod.api.pvp.net/api/lol/static-data/" + region + "/v1.2/rune?api_key=" + api_key;
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -76,7 +86,18 @@ public class RunesActivity extends BaseActivity {
 
             // Get JSON from URL
             JSONObject json = jParser.getJSONFromUrl(url);
-            Log.i("Main JSON", "" + json);
+            JSONObject runeInfo = jParser.getJSONFromUrl(url2);
+
+            // Get JSON containing Rune Info and cache it
+            try {
+                ObjectOutput out = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir(),"")+"cacheFile.srl"));
+                out.writeObject( runeInfo.toString() );
+                out.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
             return json;
         }
 
@@ -87,18 +108,21 @@ public class RunesActivity extends BaseActivity {
                 JSONObject runesObject = json.getJSONObject(encodedId);
                 Log.i("Runes JSON", "" + runesObject);
 
-
                 // Get JSON Array node
                 JSONArray rune = runesObject.getJSONArray(TAG_PAGES);
                 Log.i("Rune JSON", "" + rune);
 
+                // Load Saved file
+                ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File(new File(getCacheDir(),"")+"cacheFile.srl")));
+                String storedRuneInfo = (String) in.readObject();
+                JSONObject jsonObject = new JSONObject(storedRuneInfo);
+                JSONObject dataObject = jsonObject.getJSONObject("data");
 
+                // Initialize variables
                 String[] name = new String[rune.length()];
-                int prevId = 0;
                 String curr;
                 final String[][] runesArray = new String[rune.length()][27];
                 ArrayList<String> runePageNames = new ArrayList<String>();
-                GetStaticData getStaticData = new GetStaticData();
 
                 // Loop through pages, page names stored in string array
                 for(int i = 0; i < rune.length(); i++) {
@@ -108,17 +132,15 @@ public class RunesActivity extends BaseActivity {
 
                     for(int x = 0; x<27; x++) {
                         JSONObject s = slots.getJSONObject(x);
-
-                        if(Integer.valueOf(s.getString(TAG_RUNEID)).equals(prevId)) {
-                            runesArray[i][x] = runesArray[i][x - 1];
-                            prevId = Integer.valueOf(s.getString(TAG_RUNEID));
+                        Log.d("Rune Slots", s + "");
+                        String runeId = s.getString(TAG_RUNEID);
+                        JSONObject singleRune = dataObject.getJSONObject(runeId);
+                        try {
+                            runesArray[i][x] = singleRune.getString("name");
                         }
-                        else if(Integer.valueOf(s.getString(TAG_RUNEID)).equals(runeIdArray[Integer.valueOf(s.getString(TAG_RUNEID))]))
-                            runesArray[i][x] = runeIdArray[Integer.valueOf(s.getString(TAG_RUNEID))];
-
-                        else
-                            runesArray[i][x] = getStaticData.getRuneInfo(s.getString(TAG_RUNEID));
-                            runeIdArray[Integer.valueOf(s.getString(TAG_RUNEID))] = runesArray[i][x];
+                        catch (JSONException e) {
+                            runesArray[i][x] = "No rune equipped";
+                        }
                     }
 
                     curr = c.getString(TAG_CURRENT);
@@ -126,8 +148,6 @@ public class RunesActivity extends BaseActivity {
                     if(curr.equals("true"))
                        name[i] = name[i] + " [Active]";
                     runePageNames.add(name[i]);
-
-                    Log.i("Page Names", name[i]);
                 }
 
                 adapter = new ArrayAdapter(RunesActivity.this,
@@ -155,11 +175,18 @@ public class RunesActivity extends BaseActivity {
 
                     @Override
                     public void onNothingSelected(AdapterView<?> adapterView) {
-
                     }
                 });
 
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (StreamCorruptedException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

@@ -16,4 +16,11 @@
         android:entries="@array/mastery_selector"
         android:prompt="@string/select_masteries"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/masteries"
+        android:textColor="#C49246"
+        android:text=""/>
+
 </LinearLayout>

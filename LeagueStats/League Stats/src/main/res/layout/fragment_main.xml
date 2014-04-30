@@ -19,19 +19,21 @@
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="268dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
+            android:layout_weight="80"
             android:textColor="#C49246"
             android:textColorHint="#C49246"
             android:hint="@string/hint"/>
 
         <Spinner
             android:id="@+id/region_selector"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="20"
             android:entries="@array/region_selector"
             android:prompt="@string/region"/>
 

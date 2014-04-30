@@ -53,7 +53,6 @@ public class HistoryAdapter extends ArrayAdapter<History> {
         holder.textTitle.setText(history.gametype);
         Picasso.with(this.context).load(history.icon).into(holder.imageIcon);
 
-
         return convertView;
     }
 

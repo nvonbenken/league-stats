@@ -92,7 +92,6 @@ public class MatchHistoryActivity extends BaseActivity {
             try {
                 // Get JSON Object
                 JSONArray games = json.getJSONArray("games");
-                ImageView imageView = (ImageView) findViewById(R.id.icon);
 
                 final String[] type = new String[games.length()];
                 final String[] champId = new String[games.length()];
@@ -142,6 +141,9 @@ public class MatchHistoryActivity extends BaseActivity {
 
                     if(type[i].equals("RANKED_SOLO_5x5"))
                         type[i] = "Ranked";
+
+                    if(type[i].equals("ODIN_UNRANKED"))
+                        type[i] = "Dominion";
 
                     if(type[i].equals("CAP_5x5"))
                         type[i] = "TeamBuilder";
