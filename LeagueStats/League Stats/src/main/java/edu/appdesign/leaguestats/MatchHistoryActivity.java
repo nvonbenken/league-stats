@@ -1,6 +1,9 @@
 package edu.appdesign.leaguestats;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,7 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,6 +18,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -27,6 +39,7 @@ public class MatchHistoryActivity extends BaseActivity {
     TextView textType;
     ListView list;
     HistoryAdapter adapter;
+    Context context;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +48,19 @@ public class MatchHistoryActivity extends BaseActivity {
         list = (ListView) findViewById(R.id.list);
         getActionBar().setTitle("Recent Games");
 
-        GetMatchHistory getMatchHistory = new GetMatchHistory();
-        getMatchHistory.execute();
+        new GetMatchHistory(MatchHistoryActivity.this).execute();
     }
 
     class GetMatchHistory extends AsyncTask<String, String, JSONObject> {
+
+        private ProgressDialog dialog;
+        private Activity activity;
+
+        public GetMatchHistory(Activity activity) {
+            this.activity = activity;
+            context = activity;
+            dialog = new ProgressDialog(context, ProgressDialog.STYLE_SPINNER);
+        }
 
         private String api_key = "d96236d2-6ee3-4cfd-afa7-f41bdbc11128";
         String region = MainActivity.region.toLowerCase();
@@ -49,16 +70,17 @@ public class MatchHistoryActivity extends BaseActivity {
         String encodedId = null;
         String url = null;
 
-
         // JSON Node Names
         String TAG_TYPE = "subType";
         String TAG_STATS = "stats";
-
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             try {
+
+                this.dialog.setMessage("Loading Match History");
+                this.dialog.show();
 
                 // Assign views
                 textType = (TextView) findViewById(R.id.gameType);
@@ -70,7 +92,8 @@ public class MatchHistoryActivity extends BaseActivity {
                 encodedRegion = URLEncoder.encode(region, "UTF-8");
 
                 url = "http://prod.api.pvp.net/api/lol/" + region + "/v1.3/game/by-summoner/" + id + "/recent?api_key=" + api_key;
-                Log.i("...........", url);
+                Log.d("Test", url);
+
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -83,7 +106,6 @@ public class MatchHistoryActivity extends BaseActivity {
 
             // Get JSON from URL
             JSONObject json = jParser.getJSONFromUrl(url);
-            Log.i("............", "" + json);
             return json;
         }
 
@@ -164,6 +186,10 @@ public class MatchHistoryActivity extends BaseActivity {
                     historyData[i] = new History(score[i], type[i] + ": " + win[i], iconUrl[i]);
                 }
 
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+
                 adapter = new HistoryAdapter(MatchHistoryActivity.this,
                         R.layout.list_adapter,
                         historyData);
@@ -175,23 +201,10 @@ public class MatchHistoryActivity extends BaseActivity {
                     public void onItemClick(AdapterView<?> parent, View view, final int position,
                                             long id) {
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MatchHistoryActivity.this);
-                        builder.setPositiveButton("More Info", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                final Intent intent = new Intent(MatchHistoryActivity.this, GameInfo.class);
-                                startActivity(intent);
-                            }
-                        });
-                        builder.setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                            }
-                        });
+                    Intent intent = new Intent(MatchHistoryActivity.this, GameInfo.class);
+                    intent.putExtra("gameNumber", position);
+                    startActivity(intent);
 
-                        builder.setMessage(champId[position] + "\n" + score[position] + "\n" + win[position]);
-                        builder.setTitle(type[position]);
-
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
                     }
                 });
 

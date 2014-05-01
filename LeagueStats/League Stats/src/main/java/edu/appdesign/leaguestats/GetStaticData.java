@@ -56,7 +56,6 @@ public class GetStaticData {
             String url = "https://prod.api.pvp.net/api/lol/static-data/" + region + "/v1.2/champion/" + champId[0] + "?api_key=" + api_key;
             JSONParser jsonParser = new JSONParser();
             JSONObject jsonObject = jsonParser.getJSONFromUrl(url);
-            Log.i("JSON", "" + jsonObject);
             try {
                 champName = jsonObject.getString("key");
 
@@ -78,7 +77,6 @@ public class GetStaticData {
             JSONObject jsonObject = jsonParser.getJSONFromUrl(url);
             JSONArray jsonArray = jsonArrayParser.getJSONFromUrl(url2);
             Summary summary = new Summary();
-            Log.i("Stats JSON", "" + jsonObject);
             JSONArray array;
             JSONObject league;
             try {
@@ -93,7 +91,6 @@ public class GetStaticData {
                 summary.rLeague = league.getString("leagueName");
                 summary.rRank = league.getString("rank");
                 summary.rLeaguePoints = league.getString("leaguePoints");
-                Log.i("Ranked", "" + summary.rWins + " " + summary.rLoss);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
